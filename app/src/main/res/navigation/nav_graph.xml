@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/articlesListFragment">
+
+    <fragment
+        android:id="@+id/articlesListFragment"
+        android:name="com.articles.viewer.ui.articles.list.ArticlesListFragment"
+        android:label="List of Articles">
+        <action
+            android:id="@+id/action_articleList_to_articleDetails"
+            app:destination="@id/articleDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/articleDetailsFragment"
+        android:name="com.articles.viewer.ui.article.details.ArticleDetailsFragment"
+        android:label="Article Details">
+        <argument
+            android:name="article"
+            app:argType="com.articles.viewer.domain.model.Article" />
+<!--        <action-->
+<!--            android:id="@+id/action_detailsFragment_to_webViewFragment"-->
+<!--            app:destination="@id/webViewFragment" />-->
+    </fragment>
+
+<!--    &lt;!&ndash; Article WebView Fragment &ndash;&gt;-->
+<!--    <fragment-->
+<!--        android:id="@+id/webViewFragment"-->
+<!--        android:name="com.example.WebViewFragment"-->
+<!--        android:label="Article WebView" />-->
+</navigation>

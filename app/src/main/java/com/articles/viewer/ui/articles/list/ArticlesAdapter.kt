@@ -15,6 +15,7 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>
             field = value
             notifyDataSetChanged()
         }
+    var onArticleClicked: ((Article) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticlesViewHolder {
         val binding = ItemViewArticleBinding.inflate(
@@ -34,8 +35,13 @@ class ArticlesAdapter : RecyclerView.Adapter<ArticlesAdapter.ArticlesViewHolder>
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(article: Article) {
-            binding.titleTextView.text = article.title
-            binding.descriptionTextView.text = article.description
+            with(binding) {
+                titleTextView.text = article.title
+                descriptionTextView.text = article.description
+                root.setOnClickListener {
+                    onArticleClicked?.invoke(article)
+                }
+            }
         }
     }
 }

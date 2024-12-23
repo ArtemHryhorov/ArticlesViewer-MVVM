@@ -1,10 +1,15 @@
 package com.articles.viewer.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+// TODO("Parcelable in UI layer")
+@Parcelize
 data class Article(
     val title: String,
     val description: String,
     val url: String,
-) {
+) : Parcelable {
 
     companion object {
         fun testList(): List<Article> = listOf(
