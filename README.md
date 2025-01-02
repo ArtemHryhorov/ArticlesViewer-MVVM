@@ -51,12 +51,13 @@ List the key tools, frameworks, and libraries used in the project.
 - [ ] Implement dark mode
 - [ ] Unit tests for ViewModel
 - [ ] Caching data
-- [ ] Unit tests for ViewModel
 
 ---
 
 ## Contact
 
 **Author:** Artem Hryhorov 
+
 **Email:** tema9stark@gmail.com
+
 **LinkedIn:** [Your LinkedIn](https://www.linkedin.com/in/artem-hryhorov-191568194/)
