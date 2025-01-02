@@ -19,14 +19,18 @@
         <argument
             android:name="article"
             app:argType="com.articles.viewer.domain.model.Article" />
-<!--        <action-->
-<!--            android:id="@+id/action_detailsFragment_to_webViewFragment"-->
-<!--            app:destination="@id/webViewFragment" />-->
+        <action
+            android:id="@+id/action_detailsFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment" />
     </fragment>
 
-<!--    &lt;!&ndash; Article WebView Fragment &ndash;&gt;-->
-<!--    <fragment-->
-<!--        android:id="@+id/webViewFragment"-->
-<!--        android:name="com.example.WebViewFragment"-->
-<!--        android:label="Article WebView" />-->
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.articles.viewer.ui.web.view.WebViewFragment"
+        android:label="Article WebView" >
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </fragment>
+
 </navigation>

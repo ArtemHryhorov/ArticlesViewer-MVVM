@@ -15,6 +15,7 @@ class ArticleDetailsFragment : Fragment() {
 
     private var _binding: FragmentArticleDetailsBinding? = null
     private val binding get() = _binding!!
+    private var article: Article? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +31,7 @@ class ArticleDetailsFragment : Fragment() {
         arguments?.let {
             val article = ArticleDetailsFragmentArgs.fromBundle(it).article
             displayArticleDetails(article)
+            this.article = article
         }
         bindActions()
     }
@@ -48,10 +50,15 @@ class ArticleDetailsFragment : Fragment() {
 
     private fun bindActions() {
         binding.viewFullArticleButton.setOnClickListener {
-            // TODO("WebView")
+            article?.url?.let { navigateToWebView(it) }
         }
         binding.backButton.setOnClickListener {
             findNavController().popBackStack()
         }
+    }
+
+    private fun navigateToWebView(url: String) {
+        val action = ArticleDetailsFragmentDirections.actionDetailsFragmentToWebViewFragment(url)
+        findNavController().navigate(action)
     }
 }
