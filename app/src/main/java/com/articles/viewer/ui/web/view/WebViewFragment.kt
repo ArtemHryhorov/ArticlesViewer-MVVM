@@ -1,14 +1,15 @@
 package com.articles.viewer.ui.web.view
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebSettings
-import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.articles.viewer.R
 import com.articles.viewer.databinding.FragmentWebViewBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -53,8 +54,17 @@ class WebViewFragment : Fragment() {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.cacheMode = WebSettings.LOAD_DEFAULT
-            webViewClient = WebViewClient()
+            webViewClient = ArticleWebClient { error -> showErrorDialog(error) }
             loadUrl(url)
         }
+    }
+
+    private fun showErrorDialog(error: String) {
+        AlertDialog.Builder(requireContext())
+            .setTitle(error)
+            .setPositiveButton(getString(R.string.close)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
