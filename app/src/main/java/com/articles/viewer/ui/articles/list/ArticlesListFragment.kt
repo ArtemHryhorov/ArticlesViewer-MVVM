@@ -65,9 +65,14 @@ class ArticlesListFragment : Fragment() {
 
     private fun bindActions() {
         articlesAdapter.onArticleClicked = { navigateToArticleDetails(it) }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            viewModel.loadArticles()
+        }
     }
 
     private fun updateArticlesList(articles: List<Article>) {
+        binding.swipeRefreshLayout.isRefreshing = false
+        if (articles.isNotEmpty()) binding.progressBar.visibility = View.GONE
         articlesAdapter.articles = articles
     }
 
