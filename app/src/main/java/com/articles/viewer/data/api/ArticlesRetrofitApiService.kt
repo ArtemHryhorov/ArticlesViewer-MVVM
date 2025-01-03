@@ -1,6 +1,6 @@
 package com.articles.viewer.data.api
 
-import com.articles.viewer.data.dto.ArticlesListResponse
+import com.articles.viewer.data.api.dto.ArticlesListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
