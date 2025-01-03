@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ArticlesViewer</string>
     <string name="view_full_article">View full article</string>
+    <string name="close">Close</string>
 </resources>
