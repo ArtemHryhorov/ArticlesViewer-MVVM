@@ -1,4 +1,4 @@
-package com.articles.viewer.data.dto
+package com.articles.viewer.data.api.dto
 
 data class ArticlesListResponse(
     val status: String,

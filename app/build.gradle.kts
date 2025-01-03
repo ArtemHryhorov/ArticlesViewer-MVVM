@@ -61,6 +61,10 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
+    // Room
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.room.ktx)
+    kapt(libs.androidx.room.compiler)
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

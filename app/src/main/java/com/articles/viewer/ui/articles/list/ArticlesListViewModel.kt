@@ -29,7 +29,7 @@ class ArticlesListViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getAllArticles().fold(
                 onSuccess = { articles -> _articlesState.update { articles } },
-                onFailure = { error -> _errorState.update { UiError.fromThrowable(error) }},
+                onFailure = { error -> _errorState.update { UiError.fromThrowable(error) } },
             )
         }
     }
