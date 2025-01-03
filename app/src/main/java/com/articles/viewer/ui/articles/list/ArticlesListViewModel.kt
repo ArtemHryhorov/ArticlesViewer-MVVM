@@ -8,10 +8,7 @@ import com.articles.viewer.ui.common.UiError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,22 +20,22 @@ class ArticlesListViewModel @Inject constructor(
     private val _articlesState = MutableSharedFlow<List<Article>>(replay = 1)
     val articlesState: SharedFlow<List<Article>> get() = _articlesState
 
-    private val _errorState = MutableStateFlow<UiError?>(null)
-    val errorState: StateFlow<UiError?> get() = _errorState
+    private val _errorState = MutableSharedFlow<UiError?>(replay = 1)
+    val errorState: SharedFlow<UiError?> get() = _errorState
 
     // TODO("Inject dispatchers")
     fun loadArticles() {
         viewModelScope.launch(Dispatchers.IO) {
             getAllArticles().fold(
                 onSuccess = { articles -> _articlesState.emit(articles) },
-                onFailure = { error -> _errorState.update { UiError.fromThrowable(error) } },
+                onFailure = { error -> _errorState.emit(UiError.fromThrowable(error)) },
             )
         }
     }
 
     fun clearErrorState() {
         viewModelScope.launch {
-            _errorState.update { null }
+            _errorState.emit(null)
         }
     }
 }

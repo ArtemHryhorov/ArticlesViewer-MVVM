@@ -1,5 +1,6 @@
 package com.articles.viewer.ui.articles.list
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.articles.viewer.R
 import com.articles.viewer.databinding.FragmentArticlesListBinding
 import com.articles.viewer.domain.model.Article
+import com.articles.viewer.ui.common.UiError
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -20,7 +23,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ArticlesListFragment : Fragment() {
 
-    // TODO("Avoid using not-null assertion operator")
+    // TODO("Avoid using not-null assertion operator for binding")
     private var _binding: FragmentArticlesListBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ArticlesListViewModel by viewModels()
@@ -58,7 +61,8 @@ class ArticlesListFragment : Fragment() {
     private fun bindViewModelState() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.articlesState.collectLatest(::updateArticlesList)
+                launch { viewModel.articlesState.collectLatest(::updateArticlesList) }
+                launch { viewModel.errorState.collectLatest(::showErrorDialog) }
             }
         }
     }
@@ -74,6 +78,20 @@ class ArticlesListFragment : Fragment() {
         binding.swipeRefreshLayout.isRefreshing = false
         if (articles.isNotEmpty()) binding.progressBar.visibility = View.GONE
         articlesAdapter.articles = articles
+    }
+
+    private fun showErrorDialog(error: UiError?) {
+        if (error == null) return
+        binding.progressBar.visibility = View.GONE
+        binding.swipeRefreshLayout.isRefreshing = false
+        AlertDialog.Builder(requireContext())
+            .setTitle(error.title)
+            .setMessage(error.description)
+            .setPositiveButton(getString(R.string.close)) { dialog, _ ->
+                dialog.dismiss()
+                viewModel.clearErrorState()
+            }
+            .show()
     }
 
     private fun navigateToArticleDetails(article: Article) {
