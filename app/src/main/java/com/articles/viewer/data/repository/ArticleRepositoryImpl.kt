@@ -14,20 +14,32 @@ class ArticleRepositoryImpl @Inject constructor(
     private val articleDao: ArticleDao,
 ) : ArticleRepository {
 
-    override suspend fun getArticlesList(query: String): List<Article> {
-        return try {
-            val articlesResponse = articlesRetrofitApiService.getArticles(query)
-            if (articlesResponse.status != "ok") throw ServerUnavailableException()
+    override suspend fun getArticlesList(query: String): List<Article> = try {
+        val remoteArticles = loadRemoteArticles(query)
+        cacheRemoteArticlesIntoDatabase(remoteArticles)
+        remoteArticles
+    } catch (error: Throwable) {
+        loadCachedArticles(query).ifEmpty { throw error }
+    }
 
-            val articles = articlesResponse.articles.map { it.toDomain() }
-            val articleEntities = articles.map { it.toEntity() }
+    private suspend fun loadRemoteArticles(query: String): List<Article> {
+        val articlesResponse = articlesRetrofitApiService.getArticles(query)
+        if (articlesResponse.status != "ok") throw ServerUnavailableException()
+        return articlesResponse.articles
+            .filterNot { it.title == REMOVED_ARTICLE_TITLE }
+            .map { it.toDomain() }
+    }
 
-            articleDao.insertArticles(articleEntities)
-            articles
-        } catch (error: Throwable) {
-            val cachedArticles = articleDao.getArticles("%$query%")
-            if (cachedArticles.isEmpty()) throw error
-            cachedArticles.map { it.toDomain() }
-        }
+    private suspend fun cacheRemoteArticlesIntoDatabase(remoteArticles: List<Article>) {
+        val articleEntities = remoteArticles.map { it.toEntity() }
+        articleDao.insertArticles(articleEntities)
+    }
+
+    private suspend fun loadCachedArticles(query: String): List<Article> = articleDao
+        .getArticles("%$query%")
+        .map { it.toDomain() }
+
+    private companion object {
+        const val REMOVED_ARTICLE_TITLE = "[Removed]"
     }
 }
