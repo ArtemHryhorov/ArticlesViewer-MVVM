@@ -15,4 +15,14 @@ data class ArticleDto(
         url = url,
         publishedAt = publishedAt,
     )
+
+    companion object {
+
+        fun Article.toDto(): ArticleDto = ArticleDto(
+            title = title,
+            description = description,
+            url = url,
+            publishedAt = publishedAt,
+        )
+    }
 }
