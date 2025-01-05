@@ -68,8 +68,10 @@ dependencies {
     kapt(libs.androidx.room.compiler)
     // Tests
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.androidx.core.testing)
+
 }
 
 // Allow references to generated code
