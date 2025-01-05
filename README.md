@@ -44,13 +44,15 @@ List the key tools, frameworks, and libraries used in the project.
 - [x] UI implementation for article listing
 - [x] State management using ViewModel
 - [x] WebView
+- [x] Error handling
+- [x] Implement dark mode
+- [x] Unit tests for ViewModel
+- [x] Caching data
 
-### To-Do
+### Future improvements
 - [ ] Add pagination for articles
-- [ ] Error handling
-- [ ] Implement dark mode
-- [ ] Unit tests for ViewModel
-- [ ] Caching data
+- [ ] Inject dispatchers
+- [ ] Avoid using not-null assertion operator for binding
 
 ---
 
@@ -60,4 +62,4 @@ List the key tools, frameworks, and libraries used in the project.
 
 **Email:** tema9stark@gmail.com
 
-**LinkedIn:** [Your LinkedIn](https://www.linkedin.com/in/artem-hryhorov-191568194/)
+**LinkedIn:** [My LinkedIn](https://www.linkedin.com/in/artem-hryhorov-191568194/)
